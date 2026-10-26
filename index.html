@@ -1,1 +1,67 @@
-
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#681b32">
+<title>Lal Bangla AI Video Studio</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/UzzalBinLal/Lal_Bangla_AI_Studio/main/Logo.png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/UzzalBinLal/Lal_Bangla_AI_Studio/main/Logo.png">
+<style>
+:root{--wine:#681b32;--gold:#ffbd35;--blue:#061d67;--purple:#7b19d8}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:white;font-family:Arial,"Noto Sans Bengali",sans-serif;background:radial-gradient(ellipse at 10% 10%,#8d124d,transparent 34%),radial-gradient(ellipse at 90% 30%,#092b8d,transparent 40%),radial-gradient(ellipse at 50% 95%,#4d087e,transparent 40%),#080d25}
+header{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:12px;padding:10px 15px;background:linear-gradient(100deg,#4c082bfa,#17104bf5,#061d53fa);border-bottom:1px solid #ffbd3566;box-shadow:0 8px 25px #0006}
+.logo{width:52px;height:52px;object-fit:contain;flex-shrink:0;border-radius:12px;background:white;padding:3px;box-shadow:0 0 18px #ffbd3566}
+h1{font-size:clamp(16px,3vw,23px);margin:0;line-height:1.4}.tag{font-size:12px;color:#ffe3a1;margin-top:4px}
+.lang{margin-left:auto;border:1px solid var(--gold);border-radius:30px;padding:8px 10px;color:#ffe6a8;background:#240c40;font-size:12px}
+.hero{max-width:1000px;margin:18px auto 0;padding:22px 18px;display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:center;border:1px solid #3189ffb0;border-radius:24px;background:linear-gradient(120deg,#06164bea,#180c55e8 55%,#5d0752e8);box-shadow:0 0 28px #173ee944;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,#ffbd35,#ff2ac6,#00d9ff,#ffbd35)}
+.hero h2{font-size:clamp(26px,5vw,42px);line-height:1.25;margin:0 0 12px;color:#ffdb58}.hero p,.sub{line-height:1.8;color:#d5e5ff}
+.pills{display:flex;flex-wrap:wrap;gap:8px}.pill{padding:8px 11px;border-radius:30px;background:#ffffff12;border:1px solid #ffffff2b;font-size:13px}
+.art{min-height:175px;display:grid;place-items:center;text-align:center;border-radius:20px;background:radial-gradient(circle,#174ad9,#17105b 55%,#100b30);border:1px solid #00c8ff99;padding:18px}.art b{font-size:65px;display:block}.art strong{color:#ffd65a;font-size:18px}
+main{max-width:1000px;margin:auto;padding:18px}.frame{padding:2px;border-radius:25px;background:linear-gradient(125deg,#ffcf4a,#f22bbd,#168dff,#9c27ff,#ffcf4a);box-shadow:0 14px 38px #0006}.panel{padding:20px;border-radius:23px;background:linear-gradient(145deg,#0b1743,#081b39 55%,#310d4b)}
+.title{font-size:25px;margin:0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{padding:15px;border-radius:18px;background:linear-gradient(145deg,#0c2552,#091633);border:1px solid #167effb8;min-width:0}
+label{display:block;font-weight:bold;margin-bottom:9px;font-size:15px}
+input,textarea,select{width:100%;max-width:100%;padding:13px;border-radius:11px;border:1px solid #3d73c9;background:#06122e;color:white;font:inherit;font-size:15px}
+input[type=file]{font-size:13px;padding:10px}textarea{min-height:125px;resize:vertical;line-height:1.7}select option{background:#101d48}
+button{border:0;border-radius:30px;padding:14px 18px;font:inherit;font-weight:bold;cursor:pointer}
+.primary{display:block;width:min(100%,390px);margin:22px auto 0;background:linear-gradient(100deg,#ffdf54,#ff9d20);color:#2c1240;font-size:17px;box-shadow:0 6px 20px #ff9d2044}
+#player{display:none;width:100%;max-height:65vh;margin-top:18px;border-radius:15px;background:#000;border:1px solid #2c80ff}
+.status{padding:13px 15px;border-radius:12px;margin-top:18px;color:#d8eaff;background:#07142e;border:1px solid #244a82;line-height:1.7;overflow-wrap:anywhere}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.feature{padding:12px 8px;text-align:center;border:1px solid #ffffff24;border-radius:14px;background:#ffffff09;font-size:13px;line-height:1.6}
+footer{margin-top:24px;padding:22px 12px;text-align:center;background:linear-gradient(90deg,#51082f,#15104a,#51082f);border-top:2px solid #ff2ac6;color:#e9e9ff;font-size:13px;line-height:1.8}footer img{width:30px;height:30px;object-fit:contain;vertical-align:middle;background:white;border-radius:50%;padding:2px;margin-right:7px}
+@media(max-width:700px){.hero{margin:12px 10px 0;padding:17px;grid-template-columns:1fr}.art{min-height:110px}.art b{font-size:48px}main{padding:13px 10px}.grid{grid-template-columns:1fr}.panel{padding:14px}.features{grid-template-columns:1fr 1fr}.logo{width:46px;height:46px}}
+@media(max-width:380px){h1{font-size:14px}.tag{font-size:11px}.lang{display:none}}
+</style>
+</head>
+<body>
+<header>
+<img class="logo" src="https://raw.githubusercontent.com/UzzalBinLal/Lal_Bangla_AI_Studio/main/Logo.png" alt="LAL Logo">
+<div><h1>Lal Bangla AI Video Studio</h1><div class="tag">আপনার কল্পনা, এখন ভিডিওতে</div></div>
+<div class="lang">🌐 বাংলা | English</div>
+</header>
+<section class="hero">
+<div><h2>আপনার ভিডিও তৈরি করুন সহজেই</h2><p>ভিডিও নির্বাচন করুন, বাংলা স্ক্রিপ্ট লিখুন এবং পছন্দের কণ্ঠস্বর বেছে নিন।</p><div class="pills"><span class="pill">⚡ AI ভয়েস</span><span class="pill">🎬 ভিডিও প্রিভিউ</span><span class="pill">⬇ MP4 প্রস্তুতি</span></div></div>
+<div class="art"><div><b>🎬 ✨</b><strong>আপনার গল্প, আপনার ভিডিও</strong></div></div>
+</section>
+<main><section class="frame"><div class="panel">
+<h2 class="title">🎞️ ভিডিও তৈরি করুন</h2><p class="sub">নিচের তথ্য দিন। প্রথমে আপনার ভিডিওর প্রিভিউ দেখতে পারবেন।</p>
+<div class="grid">
+<div class="field"><label for="video">🎥 ভিডিও নির্বাচন করুন</label><input id="video" type="file" accept="video/*"><p class="sub">আপনার ডিভাইস থেকে ভিডিও বেছে নিন।</p></div>
+<div class="field"><label for="script">📝 বাংলা স্ক্রিপ্ট</label><textarea id="script" maxlength="2000" placeholder="এখানে আপনার বক্তব্য লিখুন..."></textarea><p class="sub"><span id="count">0</span>/2000 অক্ষর</p></div>
+<div class="field"><label for="voice">🎙️ কণ্ঠস্বর নির্বাচন</label><select id="voice"><option value="female">নারী কণ্ঠ</option><option value="male">পুরুষ কণ্ঠ</option></select></div>
+<div class="field"><label for="ratio">📱 ভিডিওর আকার</label><select id="ratio"><option value="9:16">9:16 — মোবাইল / Shorts</option><option value="16:9">16:9 — YouTube</option></select></div>
+</div>
+<button class="primary" id="preview" type="button">▶ ভিডিও প্রিভিউ দেখুন</button>
+<video id="player" controls playsinline preload="metadata"></video>
+<p class="status" id="status" role="status" aria-live="polite">🎨 স্টুডিও প্রস্তুত। ভিডিও নির্বাচন করে প্রিভিউ দেখুন। AI ভয়েসসহ MP4 তৈরি করতে সার্ভারের জেনারেশন সুবিধা সংযুক্ত থাকা প্রয়োজন।</p>
+<div class="features"><div class="feature">🎙️<br>কণ্ঠস্বর নির্বাচন</div><div class="feature">📱<br>মোবাইল ভিডিও</div><div class="feature">🎬<br>ভিডিও প্রিভিউ</div></div>
+</div></section></main>
+<footer><img src="https://raw.githubusercontent.com/UzzalBinLal/Lal_Bangla_AI_Studio/main/Logo.png" alt="LAL"><strong>Lal Bangla AI Video Studio</strong><br>স্মার্ট প্রযুক্তি • সৃজনশীল ভবিষ্যৎ</footer>
+<script>
+const fileInput=document.getElementById("video"),player=document.getElementById("player"),statusText=document.getElementById("status"),scriptInput=document.getElementById("script");let currentVideoUrl=null;
+scriptInput.addEventListener("input",()=>document.getElementById("count").textContent=scriptInput.value.length);
+document.getElementById("preview").addEventListener("click",()=>{const file=fileInput.files[0];if(!file){statusText.textContent="আগে আপনার ডিভাইস থেকে একটি ভিডিও নির্বাচন করুন।";fileInput.focus();return;}if(!file.type.startsWith("video/")){statusText.textContent="অনুগ্রহ করে একটি বৈধ ভিডিও ফাইল নির্বাচন করুন।";return;}if(currentVideoUrl)URL.revokeObjectURL(currentVideoUrl);currentVideoUrl=URL.createObjectURL(file);player.src=currentVideoUrl;player.style.display="block";player.load();statusText.textContent="✅ ভিডিও প্রিভিউ প্রস্তুত। প্লে বাটনে চাপ দিয়ে দেখুন।";player.scrollIntoView({behavior:"smooth",block:"nearest"});});
+window.addEventListener("beforeunload",()=>{if(currentVideoUrl)URL.revokeObjectURL(currentVideoUrl);});
+</script>
+</body></html>
