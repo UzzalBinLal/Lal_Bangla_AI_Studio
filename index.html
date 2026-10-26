@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#681b32">
+<title>Lal Bangla AI Video Studio</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101827;color:white;font-family:Arial,sans-serif}
+header{background:#681b32;padding:16px;display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;border-radius:50%;background:white;color:#681b32;display:grid;place-items:center;font-weight:bold}
+h1{font-size:19px}
+main{max-width:650px;margin:auto;padding:16px}
+.card{background:#1e293b;padding:18px;border-radius:14px;margin-top:18px}
+label{display:block;margin-top:16px}
+input,textarea,select,button{width:100%;padding:12px;margin-top:8px;border-radius:8px;font-size:16px}
+textarea{min-height:120px}
+button{background:#e5a13b;border:0;font-weight:bold}
+.note{color:#cbd5e1;line-height:1.6}
+</style>
+</head>
+<body>
+<header><div class="logo">LAL</div><h1>Lal Bangla AI Video Studio</h1></header>
+<main>
+<section class="card">
+<h2>আপনার ভিডিও তৈরি করুন</h2>
+<p class="note">ভিডিও নির্বাচন করুন, বাংলা স্ক্রিপ্ট লিখুন এবং কণ্ঠস্বর বেছে নিন।</p>
+<label>ভিডিও নির্বাচন</label>
+<input id="video" type="file" accept="video/*">
+<label>বাংলা স্ক্রিপ্ট</label>
+<textarea id="script" placeholder="এখানে আপনার বক্তব্য লিখুন"></textarea>
+<label>কণ্ঠস্বর</label>
+<select id="voice"><option>নারী কণ্ঠ</option><option>পুরুষ কণ্ঠ</option></select>
+<label>ভিডিওর আকার</label>
+<select id="ratio"><option>9:16 — মোবাইল ভিডিও</option><option>16:9 — YouTube</option></select>
+<button id="preview">ভিডিও প্রিভিউ</button>
+<video id="player" controls playsinline style="display:none;width:100%;margin-top:16px"></video>
+<p class="note" id="status">প্রাথমিক পৃষ্ঠা। AI ভয়েস ও MP4 তৈরি করার সার্ভার পরে যুক্ত হবে।</p>
+</section>
+</main>
+<script>
+const file=document.getElementById('video');
+const player=document.getElementById('player');
+document.getElementById('preview').onclick=()=>{
+if(!file.files.length){document.getElementById('status').textContent='আগে ভিডিও নির্বাচন করুন।';return;}
+player.src=URL.createObjectURL(file.files[0]);
+player.style.display='block';
+player.load();
+document.getElementById('status').textContent='ভিডিও প্রিভিউ প্রস্তুত।';
+};
+</script>
+</body>
+</html>
