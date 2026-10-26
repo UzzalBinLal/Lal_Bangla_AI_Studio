@@ -218,9 +218,7 @@ async def render_video(
                 "-map", "[a]",
             ]
         else:
-            command += ["-map", "1:a:0"]
-
-        command += [
+                    command += [
             "-map", "2:0",
             "-c:v", "libx264",
             "-preset", "veryfast",
@@ -228,11 +226,10 @@ async def render_video(
             "-c:a", "aac",
             "-b:a", "192k",
             "-c:s", "mov_text",
-            "-shortest",
+            "-t", str(duration),
             "-movflags", "+faststart",
             str(output_path),
         ]
-
         try:
             run_command(command)
         except Exception as exc:
