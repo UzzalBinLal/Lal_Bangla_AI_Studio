@@ -1,55 +1,318 @@
-
+```html
 <!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#681b32">
+
 <title>Lal Bangla AI Video Studio</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101827;color:white;font-family:Arial,sans-serif}
-header{background:#681b32;padding:16px;display:flex;align-items:center;gap:12px}
-.logo{width:48px;height:48px;border-radius:50%;background:white;color:#681b32;display:grid;place-items:center;font-weight:bold}
-h1{font-size:19px}
-main{max-width:650px;margin:auto;padding:16px}
-.card{background:#1e293b;padding:18px;border-radius:14px;margin-top:18px}
-label{display:block;margin-top:16px}
-input,textarea,select,button{width:100%;padding:12px;margin-top:8px;border-radius:8px;font-size:16px}
-textarea{min-height:120px}
-button{background:#e5a13b;border:0;font-weight:bold}
-.note{color:#cbd5e1;line-height:1.6}
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --wine: #681b32;
+  --wine-light: #8d2948;
+  --gold: #e5a13b;
+  --background: #101827;
+  --card: #1e293b;
+  --text: #ffffff;
+  --muted: #cbd5e1;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: Arial, "Noto Sans Bengali", sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  background: linear-gradient(135deg, #681b32, #321626);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 18px #0005;
+}
+
+.logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+main {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 18px 14px 35px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid #ffffff12;
+  padding: 20px;
+  border-radius: 18px;
+  margin-top: 12px;
+  box-shadow: 0 8px 24px #0002;
+}
+
+h2 {
+  font-size: 22px;
+  margin: 0 0 12px;
+}
+
+.note {
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+label {
+  display: block;
+  margin-top: 19px;
+  margin-bottom: 7px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+input,
+textarea,
+select,
+button {
+  width: 100%;
+  font: inherit;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+input,
+textarea,
+select {
+  padding: 13px;
+  color: #ffffff;
+  background: #111b2b;
+  border: 1px solid #475569;
+}
+
+input[type="file"] {
+  font-size: 14px;
+}
+
+textarea {
+  min-height: 125px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+select option {
+  background: #1e293b;
+  color: white;
+}
+
+button {
+  padding: 14px;
+  margin-top: 18px;
+  border: none;
+  background: var(--gold);
+  color: #241605;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+button:active {
+  opacity: 0.8;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+#player {
+  display: none;
+  width: 100%;
+  max-height: 65vh;
+  margin-top: 18px;
+  border-radius: 12px;
+  background: #000;
+}
+
+#status {
+  padding: 12px;
+  border-radius: 10px;
+  background: #111b2b;
+  overflow-wrap: anywhere;
+}
+
+footer {
+  text-align: center;
+  padding: 12px 16px 25px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .header-title {
+    font-size: 17px;
+  }
+
+  main {
+    padding: 12px 10px 25px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
 </style>
 </head>
+
 <body>
-<header><div class="logo">LAL</div><h1>Lal Bangla AI Video Studio</h1></header>
+
+<header>
+  <img
+    src="Logo.png"
+    alt="LAL Logo"
+    class="logo"
+  >
+  <h1 class="header-title">Lal Bangla AI Video Studio</h1>
+</header>
+
 <main>
-<section class="card">
-<h2>আপনার ভিডিও তৈরি করুন</h2>
-<p class="note">ভিডিও নির্বাচন করুন, বাংলা স্ক্রিপ্ট লিখুন এবং কণ্ঠস্বর বেছে নিন।</p>
-<label>ভিডিও নির্বাচন</label>
-<input id="video" type="file" accept="video/*">
-<label>বাংলা স্ক্রিপ্ট</label>
-<textarea id="script" placeholder="এখানে আপনার বক্তব্য লিখুন"></textarea>
-<label>কণ্ঠস্বর</label>
-<select id="voice"><option>নারী কণ্ঠ</option><option>পুরুষ কণ্ঠ</option></select>
-<label>ভিডিওর আকার</label>
-<select id="ratio"><option>9:16 — মোবাইল ভিডিও</option><option>16:9 — YouTube</option></select>
-<button id="preview">ভিডিও প্রিভিউ</button>
-<video id="player" controls playsinline style="display:none;width:100%;margin-top:16px"></video>
-<p class="note" id="status">প্রাথমিক পৃষ্ঠা। AI ভয়েস ও MP4 তৈরি করার সার্ভার পরে যুক্ত হবে।</p>
-</section>
+  <section class="card">
+    <h2>আপনার ভিডিও তৈরি করুন</h2>
+
+    <p class="note">
+      আপনার ভিডিও নির্বাচন করুন, বাংলা স্ক্রিপ্ট লিখুন
+      এবং পছন্দের কণ্ঠস্বর বেছে নিন।
+    </p>
+
+    <label for="video">ভিডিও নির্বাচন করুন</label>
+    <input
+      id="video"
+      type="file"
+      accept="video/*"
+    >
+
+    <label for="script">বাংলা স্ক্রিপ্ট</label>
+    <textarea
+      id="script"
+      placeholder="এখানে আপনার বক্তব্য লিখুন..."
+    ></textarea>
+
+    <label for="voice">কণ্ঠস্বর নির্বাচন</label>
+    <select id="voice">
+      <option value="female">নারী কণ্ঠ</option>
+      <option value="male">পুরুষ কণ্ঠ</option>
+    </select>
+
+    <label for="ratio">ভিডিওর আকার</label>
+    <select id="ratio">
+      <option value="9:16">9:16 — মোবাইল ভিডিও</option>
+      <option value="16:9">16:9 — YouTube</option>
+    </select>
+
+    <button id="preview" type="button">
+      ▶ ভিডিও প্রিভিউ দেখুন
+    </button>
+
+    <video
+      id="player"
+      controls
+      playsinline
+      preload="metadata"
+    ></video>
+
+    <p class="note" id="status" role="status" aria-live="polite">
+      ভিডিও নির্বাচন করে প্রিভিউ দেখুন।
+      AI ভয়েস ও MP4 তৈরির সুবিধা সার্ভারের সঙ্গে সংযুক্ত করতে হবে।
+    </p>
+  </section>
 </main>
+
+<footer>
+  Lal Bangla AI Video Studio
+</footer>
+
 <script>
-const file=document.getElementById('video');
-const player=document.getElementById('player');
-document.getElementById('preview').onclick=()=>{
-if(!file.files.length){document.getElementById('status').textContent='আগে ভিডিও নির্বাচন করুন।';return;}
-player.src=URL.createObjectURL(file.files[0]);
-player.style.display='block';
-player.load();
-document.getElementById('status').textContent='ভিডিও প্রিভিউ প্রস্তুত।';
-};
+const fileInput = document.getElementById("video");
+const player = document.getElementById("player");
+const statusText = document.getElementById("status");
+const previewButton = document.getElementById("preview");
+
+let currentVideoUrl = null;
+
+previewButton.addEventListener("click", function () {
+  const file = fileInput.files[0];
+
+  if (!file) {
+    statusText.textContent = "আগে আপনার ভিডিও নির্বাচন করুন।";
+    fileInput.focus();
+    return;
+  }
+
+  if (!file.type.startsWith("video/")) {
+    statusText.textContent = "একটি বৈধ ভিডিও ফাইল নির্বাচন করুন।";
+    return;
+  }
+
+  if (currentVideoUrl) {
+    URL.revokeObjectURL(currentVideoUrl);
+  }
+
+  currentVideoUrl = URL.createObjectURL(file);
+  player.src = currentVideoUrl;
+  player.style.display = "block";
+  player.load();
+
+  statusText.textContent =
+    "ভিডিও প্রিভিউ প্রস্তুত। প্লে বাটনে চাপ দিয়ে দেখুন।";
+
+  player.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest"
+  });
+});
+
+window.addEventListener("beforeunload", function () {
+  if (currentVideoUrl) {
+    URL.revokeObjectURL(currentVideoUrl);
+  }
+});
 </script>
+
 </body>
 </html>
+```
