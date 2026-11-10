@@ -7,6 +7,7 @@
 <title>Lal Bangla AI Video Studio</title>
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/UzzalBinLal/Lal_Bangla_AI_Studio/main/Logo.png">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/UzzalBinLal/Lal_Bangla_AI_Studio/main/Logo.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <style>
 :root{--gold:#ffbd35}*{box-sizing:border-box}html,body{margin:0;min-height:100%;color:white;font-family:Arial,"Noto Sans Bengali",sans-serif;background:radial-gradient(ellipse at 10% 10%,#8d124d,transparent 34%),radial-gradient(ellipse at 90% 30%,#092b8d,transparent 40%),radial-gradient(ellipse at 50% 95%,#4d087e,transparent 40%),#080d25}
 header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:9px;padding:7px 10px;background:linear-gradient(100deg,#4c082bfa,#17104bf5,#061d53fa);border-bottom:1px solid #ffbd3566;box-shadow:0 5px 18px #0006}.logo{width:42px;height:42px;object-fit:contain;flex-shrink:0;border-radius:10px;background:white;padding:3px}h1{font-size:clamp(14px,3vw,22px);margin:0;line-height:1.25}.tag{font-size:10px;color:#ffe3a1;margin-top:3px}.lang{margin-left:auto;border:1px solid var(--gold);border-radius:30px;padding:6px 8px;color:#ffe6a8;background:#240c40;font-size:10px;white-space:nowrap}
@@ -38,5 +39,6 @@ form.addEventListener("submit",async event=>{event.preventDefault();const file=f
 generateButton.disabled=true;generateButton.textContent="⏳ ভিডিও তৈরি হচ্ছে…";statusText.textContent="⏳ ভিডিও আপলোড হচ্ছে এবং বাংলা কণ্ঠ/সাবটাইটেল তৈরি হচ্ছে। সময় লাগতে পারে।";
 try{const data=new FormData();data.append("video",file);data.append("script",script);data.append("voice",document.getElementById("voice").value);data.append("ratio",document.getElementById("ratio").value);data.append("keep_original_audio","false");const response=await fetch("/api/render",{method:"POST",body:data});if(!response.ok){let message="সার্ভার ভিডিও তৈরি করতে পারেনি।";try{const err=await response.json();if(err.detail)message=err.detail}catch(_){}throw new Error(message)}const blob=await response.blob();if(!blob.size)throw new Error("সার্ভার থেকে খালি ফাইল এসেছে।");const downloadUrl=URL.createObjectURL(blob),link=document.createElement("a");link.href=downloadUrl;link.download="Lal_Bangla_AI_Video.mp4";document.body.appendChild(link);link.click();link.remove();player.src=downloadUrl;player.style.display="block";player.load();statusText.textContent="✅ ভিডিও তৈরি হয়েছে। MP4 ফাইল ডাউনলোড শুরু হয়েছে।"}catch(error){statusText.textContent="❌ "+(error.message||"সমস্যা হয়েছে।")+" সার্ভার/FFmpeg সমস্যা হলে Render-এর লগ পরীক্ষা করতে হবে।"}finally{generateButton.disabled=false;generateButton.textContent="✨ ভিডিও তৈরি করুন"}});
 window.addEventListener("beforeunload",()=>{if(currentVideoUrl)URL.revokeObjectURL(currentVideoUrl)});
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}))}
 </script>
 </body></html>
