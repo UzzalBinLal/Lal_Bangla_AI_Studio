@@ -33,6 +33,21 @@ async def home():
     return FileResponse(index)
 
 
+@app.get("/manifest.webmanifest")
+async def web_manifest():
+    return FileResponse(BASE_DIR / "manifest.webmanifest", media_type="application/manifest+json")
+
+
+@app.get("/sw.js")
+async def service_worker():
+    return FileResponse(BASE_DIR / "sw.js", media_type="application/javascript", headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/Logo.png")
+async def app_logo():
+    return FileResponse(BASE_DIR / "Logo.png", media_type="image/png")
+
+
 @app.get("/health")
 async def health():
     return {"status": "ok", "app": "Lal Bangla AI Video Studio"}
