@@ -218,7 +218,11 @@ async def render_video(
                 "-map", "[a]",
             ]
         else:
-                    command += [
+            # Use generated Bengali narration as the MP4 audio track.
+            command += ["-map", "1:a:0"]
+
+        # Add timed Bengali subtitles separately from the audio.
+        command += [
             "-map", "2:0",
             "-c:v", "libx264",
             "-preset", "veryfast",
