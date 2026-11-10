@@ -125,6 +125,39 @@ def make_srt(script, duration, output_path):
     output_path.write_text("\n".join(blocks), encoding="utf-8-sig")
 
 
+@app.post("/api/voice")
+async def generate_voice(
+    script: str = Form(...),
+    voice: str = Form("female"),
+):
+    text = script.strip()
+    if not text:
+        raise HTTPException(400, "আগে বাংলা লেখা দিন।")
+    if len(text) > 5000:
+        raise HTTPException(413, "লেখা ৫০০০ অক্ষরের মধ্যে রাখুন।")
+    if voice not in VOICES:
+        voice = "female"
+    workdir = Path(tempfile.mkdtemp(prefix="lalvoice_"))
+    audio_path = workdir / "Lal_Bangla_Voice.mp3"
+    try:
+        communicate = edge_tts.Communicate(text=text, voice=VOICES[voice])
+        await communicate.save(str(audio_path))
+        if not audio_path.exists() or audio_path.stat().st_size == 0:
+            raise RuntimeError("অডিও তৈরি হয়নি।")
+        return FileResponse(
+            path=audio_path,
+            media_type="audio/mpeg",
+            filename="Lal_Bangla_Voice.mp3",
+            background=BackgroundTask(shutil.rmtree, workdir, ignore_errors=True),
+        )
+    except HTTPException:
+        shutil.rmtree(workdir, ignore_errors=True)
+        raise
+    except Exception as exc:
+        shutil.rmtree(workdir, ignore_errors=True)
+        raise HTTPException(500, f"বাংলা ভয়েস তৈরি করা যায়নি: {str(exc)[:250]}") from exc
+
+
 @app.post("/api/render")
 async def render_video(
     video: UploadFile = File(...),
