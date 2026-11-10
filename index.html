@@ -36,9 +36,31 @@ let voiceObjectUrl=null;const voiceForm=document.getElementById("voiceForm"),voi
 scriptInput.addEventListener("input",()=>document.getElementById("count").textContent=scriptInput.value.length);
 function showPreview(){const file=fileInput.files[0];if(!file){statusText.textContent="আগে আপনার ডিভাইস থেকে একটি ভিডিও নির্বাচন করুন।";fileInput.focus();return false}if(!file.type.startsWith("video/")){statusText.textContent="অনুগ্রহ করে একটি বৈধ ভিডিও ফাইল নির্বাচন করুন।";return false}if(currentVideoUrl)URL.revokeObjectURL(currentVideoUrl);currentVideoUrl=URL.createObjectURL(file);player.src=currentVideoUrl;player.style.display="block";player.load();statusText.textContent="✅ ভিডিও প্রিভিউ প্রস্তুত। প্লে বাটনে চাপ দিয়ে দেখুন।";return true}
 document.getElementById("preview").addEventListener("click",()=>{if(showPreview())player.scrollIntoView({behavior:"smooth",block:"nearest"})});
+async function waitForBackend(){
+  let lastError="সার্ভারে সংযোগ পাওয়া যায়নি।";
+  for(let attempt=0;attempt<12;attempt++){
+    statusText.textContent="⏳ AI Studio সার্ভার চালু হচ্ছে… "+(attempt+1)+"/12";
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),8000);
+    try{
+      const health=await fetch("/health",{cache:"no-store",signal:controller.signal});
+      if(health.ok){
+        const info=await health.json();
+        if(info.ffmpeg===false||info.ffprobe===false)throw new Error("সার্ভারে FFmpeg/FFprobe পাওয়া যাচ্ছে না। Render-এর runtime পরীক্ষা প্রয়োজন।");
+        return;
+      }
+      lastError="সার্ভার HTTP "+health.status+" উত্তর দিয়েছে।";
+    }catch(error){
+      if(error.message&&error.message.includes("FFmpeg"))throw error;
+      lastError=error.name==="AbortError"?"সার্ভারের উত্তর পেতে দেরি হচ্ছে।":(error.message||lastError);
+    }finally{clearTimeout(timer)}
+    if(attempt<11)await new Promise(resolve=>setTimeout(resolve,5000));
+  }
+  throw new Error("Render সার্ভার ৯০ সেকেন্ডেও প্রস্তুত হয়নি। "+lastError+" কিছুক্ষণ পর আবার চেষ্টা করুন।");
+}
 form.addEventListener("submit",async event=>{event.preventDefault();const file=fileInput.files[0],script=scriptInput.value.trim();if(!file){statusText.textContent="আগে একটি ভিডিও নির্বাচন করুন।";fileInput.focus();return}if(!script){statusText.textContent="আগে বাংলা স্ক্রিপ্ট লিখুন।";scriptInput.focus();return}if(file.size>500*1024*1024){statusText.textContent="ভিডিওটি 500 MB-এর বেশি। ছোট ভিডিও নির্বাচন করুন।";return}
 generateButton.disabled=true;generateButton.textContent="⏳ ভিডিও তৈরি হচ্ছে…";statusText.textContent="⏳ ভিডিও আপলোড হচ্ছে এবং বাংলা কণ্ঠ/সাবটাইটেল তৈরি হচ্ছে। সময় লাগতে পারে।";
-try{const data=new FormData();data.append("video",file);data.append("script",script);data.append("voice",document.getElementById("voice").value);data.append("ratio",document.getElementById("ratio").value);data.append("keep_original_audio","false");const response=await fetch("/api/render",{method:"POST",body:data});if(!response.ok){let message="সার্ভার ভিডিও তৈরি করতে পারেনি।";try{const err=await response.json();if(err.detail)message=err.detail}catch(_){}throw new Error(message)}const blob=await response.blob();if(!blob.size)throw new Error("সার্ভার থেকে খালি ফাইল এসেছে।");const downloadUrl=URL.createObjectURL(blob),link=document.createElement("a");link.href=downloadUrl;link.download="Lal_Bangla_AI_Video.mp4";document.body.appendChild(link);link.click();link.remove();player.src=downloadUrl;player.style.display="block";player.load();statusText.textContent="✅ ভিডিও তৈরি হয়েছে। MP4 ফাইল ডাউনলোড শুরু হয়েছে।"}catch(error){statusText.textContent="❌ "+(error.message||"সমস্যা হয়েছে।")+" সার্ভার/FFmpeg সমস্যা হলে Render-এর লগ পরীক্ষা করতে হবে।"}finally{generateButton.disabled=false;generateButton.textContent="✨ ভিডিও তৈরি করুন"}});
+try{await waitForBackend();statusText.textContent="⏳ সার্ভার প্রস্তুত। ভিডিও আপলোড ও রেন্ডার হচ্ছে…";const data=new FormData();data.append("video",file);data.append("script",script);data.append("voice",document.getElementById("voice").value);data.append("ratio",document.getElementById("ratio").value);data.append("keep_original_audio","false");const response=await fetch("/api/render",{method:"POST",body:data});if(!response.ok){let message="সার্ভার ভিডিও তৈরি করতে পারেনি।";try{const err=await response.json();if(err.detail)message=err.detail}catch(_){}throw new Error(message)}const blob=await response.blob();if(!blob.size)throw new Error("সার্ভার থেকে খালি ফাইল এসেছে।");const downloadUrl=URL.createObjectURL(blob),link=document.createElement("a");link.href=downloadUrl;link.download="Lal_Bangla_AI_Video.mp4";document.body.appendChild(link);link.click();link.remove();player.src=downloadUrl;player.style.display="block";player.load();statusText.textContent="✅ ভিডিও তৈরি হয়েছে। MP4 ফাইল ডাউনলোড শুরু হয়েছে।"}catch(error){statusText.textContent="❌ "+(error.message||"সমস্যা হয়েছে।")+" সার্ভার/FFmpeg সমস্যা হলে Render-এর লগ পরীক্ষা করতে হবে।"}finally{generateButton.disabled=false;generateButton.textContent="✨ ভিডিও তৈরি করুন"}});
 window.addEventListener("beforeunload",()=>{if(currentVideoUrl)URL.revokeObjectURL(currentVideoUrl);if(voiceObjectUrl)URL.revokeObjectURL(voiceObjectUrl)});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}))}
 </script>
