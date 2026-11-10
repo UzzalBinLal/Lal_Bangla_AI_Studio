@@ -1,0 +1,20 @@
+{
+  "name": "Lal Bangla AI Video Studio",
+  "short_name": "LAL AI Studio",
+  "description": "বাংলা ভয়েসসহ ভিডিও তৈরি করুন",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#080d25",
+  "theme_color": "#681b32",
+  "lang": "bn",
+  "icons": [
+    {
+      "src": "/Logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
