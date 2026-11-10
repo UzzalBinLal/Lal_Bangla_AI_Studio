@@ -50,7 +50,12 @@ async def app_logo():
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "app": "Lal Bangla AI Video Studio"}
+    return {
+        "status": "ok",
+        "app": "Lal Bangla AI Video Studio",
+        "ffmpeg": shutil.which("ffmpeg") is not None,
+        "ffprobe": shutil.which("ffprobe") is not None,
+    }
 
 
 @app.get("/api/voices")
@@ -202,15 +207,7 @@ async def render_video(
         if size == 0:
             raise HTTPException(400, "ভিডিও ফাইলটি খালি।")
 
-        try:
-            run_command([
-                "ffmpeg", "-v", "error", "-i", str(input_path),
-                "-f", "null", "-"
-            ])
-        except Exception:
-            raise HTTPException(
-                400, "ভিডিওটি পড়া যাচ্ছে না। অন্য ভিডিও চেষ্টা করুন।"
-            )
+        # ffprobe below validates the container without decoding the entire upload once before rendering.
 
         communicate = edge_tts.Communicate(
             text=script.strip(),
@@ -273,7 +270,8 @@ async def render_video(
         command += [
             "-map", "2:0",
             "-c:v", "libx264",
-            "-preset", "veryfast",
+            "-preset", "ultrafast",
+            "-threads", "2",
             "-crf", "23",
             "-c:a", "aac",
             "-b:a", "192k",
