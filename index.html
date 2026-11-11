@@ -28,7 +28,34 @@ main{max-width:960px;margin:auto;padding:12px}.frame{padding:2px;border-radius:2
 <div class="field"><label for="ratio">📱 ভিডিওর আকার</label><select id="ratio" name="ratio"><option value="9:16">9:16 — মোবাইল / Shorts</option><option value="16:9">16:9 — YouTube</option><option value="1:1">1:1 — বর্গাকার</option></select></div>
 </div><div class="actions"><button class="secondary" id="preview" type="button">▶ প্রিভিউ</button><button class="primary" id="generate" type="submit">✨ ভিডিও তৈরি করুন</button></div></form>
 <video id="player" controls playsinline preload="metadata"></video><p class="status" id="status" role="status" aria-live="polite">🎨 স্টুডিও প্রস্তুত। ভিডিও ও বাংলা স্ক্রিপ্ট দিন।</p><div class="features"><div class="feature">🎙️<br>বাংলা কণ্ঠ</div><div class="feature">📱<br>মোবাইল ভিডিও</div><div class="feature">⬇️<br>MP4 ডাউনলোড</div></div>
-</div></section></main>
+</div></section>
+<section class="frame" style="margin-top:12px"><div class="panel">
+<h2 class="title">🖼️ ছবি থেকে উপস্থাপনা ভিডিও</h2>
+<p class="sub">নিজের ছবি ও লেখা দিন। বিনামূল্যে বাংলা ভয়েস, সাবটাইটেল এবং MP4 তৈরি হবে।</p>
+<form id="photoForm"><div class="grid">
+<div class="field"><label for="photoFile">🖼️ আপনার ছবি</label><input id="photoFile" type="file" accept="image/jpeg,image/png,image/webp" required><p class="sub">একজনের পরিষ্কার মুখের ছবি দিন (সর্বোচ্চ ২০ MB)</p></div>
+<div class="field"><label for="photoScript">📝 ছবির বক্তব্য</label><textarea id="photoScript" maxlength="5000" placeholder="ছবির ব্যক্তি যে কথাগুলো বলবেন..." required></textarea><p class="sub"><span id="photoCount">0</span>/5000 অক্ষর</p></div>
+<div class="field"><label for="photoVoice">🎙️ বাংলা কণ্ঠ</label><select id="photoVoice"><option value="female">নারী কণ্ঠ</option><option value="male">পুরুষ কণ্ঠ</option></select></div>
+<div class="field"><label for="photoRatio">📱 ভিডিও অনুপাত</label><select id="photoRatio"><option value="9:16">9:16 — মোবাইল</option><option value="16:9">16:9 — YouTube</option><option value="1:1">1:1 — Square</option></select></div>
+</div><div class="actions"><button class="primary" id="photoMake" type="submit">✨ ছবি-ভয়েস ভিডিও তৈরি</button></div></form>
+<p class="status" id="photoStatus" role="status" aria-live="polite">ছবি ও লেখা দিলে ভিডিও তৈরি করতে পারবেন।</p>
+<p class="sub">বিনামূল্যের সংস্করণে স্থির ছবি, ভয়েস ও সাবটাইটেল যুক্ত হবে। বাস্তব ঠোঁট নড়ানোর AI ইঞ্জিন পরবর্তী আপডেটে যুক্ত হবে।</p>
+</div></section>
+
+<section class="frame" style="margin-top:12px"><div class="panel">
+<h2 class="title">📰 AI সংবাদ পাঠিকা স্টুডিও</h2>
+<p class="sub">আপনার পছন্দের সংবাদ পাঠিকার ছবি স্থায়ীভাবে এই ডিভাইসে রেখে সংবাদ তৈরি করুন।</p>
+<form id="newsForm"><div class="grid">
+<div class="field"><label for="newsPhoto">👩 সংবাদ পাঠিকার ছবি</label><input id="newsPhoto" type="file" accept="image/jpeg,image/png,image/webp" required><p class="sub">প্রতিবার নিজের পছন্দের ছবি নির্বাচন করুন</p></div>
+<div class="field"><label for="newsScript">🗞️ সংবাদ পাঠের লেখা</label><textarea id="newsScript" maxlength="5000" placeholder="আজকের সংবাদ এখানে লিখুন..." required></textarea><p class="sub"><span id="newsCount">0</span>/5000 অক্ষর</p></div>
+<div class="field"><label for="newsVoice">🎙️ সংবাদ পাঠের কণ্ঠ</label><select id="newsVoice"><option value="female">নারী কণ্ঠ</option><option value="male">পুরুষ কণ্ঠ</option></select></div>
+<div class="field"><label for="newsRatio">📺 সংবাদ ভিডিওর আকার</label><select id="newsRatio"><option value="16:9">16:9 — সংবাদ স্টুডিও</option><option value="9:16">9:16 — মোবাইল</option><option value="1:1">1:1 — Square</option></select></div>
+</div><div class="actions"><button class="primary" id="newsMake" type="submit">📰 সংবাদ ভিডিও তৈরি</button></div></form>
+<p class="status" id="newsStatus" role="status" aria-live="polite">সংবাদ পাঠিকার ছবি ও সংবাদ লিখুন।</p>
+<p class="sub">এই বিনামূল্যের ধাপে ছবি, বাংলা সংবাদ ভয়েস ও ক্যাপশন দিয়ে MP4 তৈরি হবে। মুখের বাস্তব lip-sync পরে AI সংযোগে আসবে।</p>
+</div></section>
+
+</main>
 <footer><img src="https://raw.githubusercontent.com/UzzalBinLal/Lal_Bangla_AI_Studio/main/Logo.png" alt="LAL"><strong>Lal Bangla AI Video Studio</strong><br>স্মার্ট প্রযুক্তি • সৃজনশীল ভবিষ্যৎ</footer>
 <script>
 const fileInput=document.getElementById("video"),player=document.getElementById("player"),statusText=document.getElementById("status"),scriptInput=document.getElementById("script"),form=document.getElementById("renderForm"),generateButton=document.getElementById("generate");let currentVideoUrl=null;
@@ -61,6 +88,34 @@ async function waitForBackend(){
 form.addEventListener("submit",async event=>{event.preventDefault();const file=fileInput.files[0],script=scriptInput.value.trim();if(!file){statusText.textContent="আগে একটি ভিডিও নির্বাচন করুন।";fileInput.focus();return}if(!script){statusText.textContent="আগে বাংলা স্ক্রিপ্ট লিখুন।";scriptInput.focus();return}if(file.size>500*1024*1024){statusText.textContent="ভিডিওটি 500 MB-এর বেশি। ছোট ভিডিও নির্বাচন করুন।";return}
 generateButton.disabled=true;generateButton.textContent="⏳ ভিডিও তৈরি হচ্ছে…";statusText.textContent="⏳ ভিডিও আপলোড হচ্ছে এবং বাংলা কণ্ঠ/সাবটাইটেল তৈরি হচ্ছে। সময় লাগতে পারে।";
 try{await waitForBackend();statusText.textContent="⏳ সার্ভার প্রস্তুত। ভিডিও আপলোড ও রেন্ডার হচ্ছে…";const data=new FormData();data.append("video",file);data.append("script",script);data.append("voice",document.getElementById("voice").value);data.append("ratio",document.getElementById("ratio").value);data.append("keep_original_audio","false");const response=await fetch("/api/render",{method:"POST",body:data});if(!response.ok){let message="সার্ভার ভিডিও তৈরি করতে পারেনি।";try{const err=await response.json();if(err.detail)message=err.detail}catch(_){}throw new Error(message)}const blob=await response.blob();if(!blob.size)throw new Error("সার্ভার থেকে খালি ফাইল এসেছে।");const downloadUrl=URL.createObjectURL(blob),link=document.createElement("a");link.href=downloadUrl;link.download="Lal_Bangla_AI_Video.mp4";document.body.appendChild(link);link.click();link.remove();player.src=downloadUrl;player.style.display="block";player.load();statusText.textContent="✅ ভিডিও তৈরি হয়েছে। MP4 ফাইল ডাউনলোড শুরু হয়েছে।"}catch(error){statusText.textContent="❌ "+(error.message||"সমস্যা হয়েছে।")+" সার্ভার/FFmpeg সমস্যা হলে Render-এর লগ পরীক্ষা করতে হবে।"}finally{generateButton.disabled=false;generateButton.textContent="✨ ভিডিও তৈরি করুন"}});
+
+async function bindPhotoStudio(formId, fileId, scriptId, voiceId, ratioId, buttonId, statusId, type, filename){
+ const form=document.getElementById(formId),button=document.getElementById(buttonId),status=document.getElementById(statusId);
+ const script=document.getElementById(scriptId),file=document.getElementById(fileId);
+ script.addEventListener("input",()=>document.getElementById(type==="news"?"newsCount":"photoCount").textContent=script.value.length);
+ form.addEventListener("submit",async event=>{
+  event.preventDefault();
+  if(!file.files[0]){status.textContent="আগে একটি ছবি নির্বাচন করুন।";return}
+  if(!script.value.trim()){status.textContent="আগে বক্তব্য লিখুন।";return}
+  if(file.files[0].size>20*1024*1024){status.textContent="ছবিটি ২০ MB-এর বেশি।";return}
+  button.disabled=true;button.textContent="⏳ ভিডিও তৈরি হচ্ছে…";
+  status.textContent="বাংলা ভয়েস তৈরি ও ভিডিও রেন্ডার হচ্ছে। কিছুক্ষণ অপেক্ষা করুন…";
+  try{
+   await waitForBackend();
+   const data=new FormData();data.append("photo",file.files[0]);data.append("script",script.value.trim());
+   data.append("voice",document.getElementById(voiceId).value);data.append("ratio",document.getElementById(ratioId).value);data.append("presenter_type",type);
+   const response=await fetch("/api/render-photo",{method:"POST",body:data});
+   if(!response.ok){let message="ভিডিও তৈরি করা যায়নি।";try{const err=await response.json();if(err.detail)message=err.detail}catch(_){}throw new Error(message)}
+   const blob=await response.blob();if(!blob.size)throw new Error("খালি ভিডিও ফাইল এসেছে।");
+   const url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=filename;document.body.appendChild(link);link.click();link.remove();
+   player.src=url;player.style.display="block";player.load();status.textContent="✅ ভিডিও তৈরি হয়েছে এবং MP4 ডাউনলোড শুরু হয়েছে।";
+  }catch(error){status.textContent="❌ "+(error.message||"সার্ভারে সমস্যা হয়েছে।")}
+  finally{button.disabled=false;button.textContent=type==="news"?"📰 সংবাদ ভিডিও তৈরি":"✨ ছবি-ভয়েস ভিডিও তৈরি"}
+ });
+}
+bindPhotoStudio("photoForm","photoFile","photoScript","photoVoice","photoRatio","photoMake","photoStatus","talking_photo","Lal_Bangla_Talking_Photo.mp4");
+bindPhotoStudio("newsForm","newsPhoto","newsScript","newsVoice","newsRatio","newsMake","newsStatus","news","Lal_Bangla_News.mp4");
+
 window.addEventListener("beforeunload",()=>{if(currentVideoUrl)URL.revokeObjectURL(currentVideoUrl);if(voiceObjectUrl)URL.revokeObjectURL(voiceObjectUrl)});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}))}
 </script>
