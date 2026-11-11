@@ -310,5 +310,93 @@ async def render_video(
         await video.close()
 
 
+
+
+@app.post("/api/render-photo")
+async def render_photo_video(
+    photo: UploadFile = File(...),
+    script: str = Form(...),
+    voice: str = Form("female"),
+    ratio: str = Form("9:16"),
+    presenter_type: str = Form("talking_photo"),
+):
+    """Free photo presenter: still image + Bengali TTS + timed captions.
+    This endpoint does NOT synthesize facial/lip movement; that is a future AI provider.
+    """
+    text = script.strip()
+    if not text:
+        raise HTTPException(400, "আগে বাংলা স্ক্রিপ্ট লিখুন।")
+    if len(text) > 5000:
+        raise HTTPException(413, "লেখা ৫০০০ অক্ষরের মধ্যে রাখুন।")
+    if voice not in VOICES:
+        voice = "female"
+    if ratio not in ("9:16", "16:9", "1:1"):
+        ratio = "9:16"
+    if presenter_type not in ("talking_photo", "news"):
+        presenter_type = "talking_photo"
+    if not photo.filename or photo.content_type not in ("image/jpeg", "image/png", "image/webp"):
+        raise HTTPException(400, "JPG, PNG অথবা WEBP ছবি নির্বাচন করুন।")
+
+    workdir = Path(tempfile.mkdtemp(prefix="lalphoto_"))
+    try:
+        suffix = { "image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp" }[photo.content_type]
+        image_path = workdir / ("presenter" + suffix)
+        audio_path = workdir / "voice.mp3"
+        srt_path = workdir / "captions.srt"
+        output_path = workdir / ("Lal_Bangla_News.mp4" if presenter_type == "news" else "Lal_Bangla_Talking_Photo.mp4")
+
+        size = 0
+        with image_path.open("wb") as destination:
+            while True:
+                chunk = await photo.read(1024 * 1024)
+                if not chunk:
+                    break
+                size += len(chunk)
+                if size > 20 * 1024 * 1024:
+                    raise HTTPException(413, "ছবিটি ২০ MB-এর বেশি।")
+                destination.write(chunk)
+        if size == 0:
+            raise HTTPException(400, "ছবির ফাইলটি খালি।")
+
+        communicate = edge_tts.Communicate(text=text, voice=VOICES[voice])
+        await communicate.save(str(audio_path))
+        probe = run_command([
+            "ffprobe", "-v", "error", "-show_entries", "format=duration",
+            "-of", "default=noprint_wrappers=1:nokey=1", str(audio_path)
+        ])
+        duration = float(probe.stdout.strip())
+        if duration <= 0:
+            raise RuntimeError("ভয়েসের দৈর্ঘ্য নির্ণয় করা যায়নি।")
+        make_srt(text, duration, srt_path)
+
+        dimensions = {"9:16": (720, 1280), "16:9": (1280, 720), "1:1": (720, 720)}
+        width, height = dimensions[ratio]
+        video_filter = (
+            f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
+            f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2,setsar=1"
+        )
+        run_command([
+            "ffmpeg", "-y", "-loop", "1", "-framerate", "25", "-i", str(image_path),
+            "-i", str(audio_path), "-i", str(srt_path),
+            "-vf", video_filter, "-map", "0:v:0", "-map", "1:a:0", "-map", "2:0",
+            "-c:v", "libx264", "-preset", "ultrafast", "-threads", "2", "-tune", "stillimage",
+            "-crf", "23", "-c:a", "aac", "-b:a", "192k", "-c:s", "mov_text",
+            "-t", str(duration), "-shortest", "-movflags", "+faststart", str(output_path)
+        ])
+        return FileResponse(
+            path=output_path, media_type="video/mp4",
+            filename=output_path.name,
+            background=BackgroundTask(shutil.rmtree, workdir, ignore_errors=True),
+        )
+    except HTTPException:
+        shutil.rmtree(workdir, ignore_errors=True)
+        raise
+    except Exception as exc:
+        shutil.rmtree(workdir, ignore_errors=True)
+        raise HTTPException(500, f"ছবি-ভয়েস ভিডিও তৈরি করা যায়নি: {str(exc)[:250]}") from exc
+    finally:
+        await photo.close()
+
+
 # নিজের ল্যাপটপে চালাতে:
 # python -m uvicorn server:app --host 0.0.0.0 --port 8000
